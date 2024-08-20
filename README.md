@@ -1,6 +1,6 @@
 # Password Lock
 
-> [Clique aqui](https://www.youtube.com) para acessar o vídeo de apresentação do projeto.
+> <a href="https://www.youtube.com" target="_blank">Clique aqui</a> para acessar o vídeo de apresentação do projeto.
 
 ## Índice
 
@@ -14,10 +14,15 @@
 ## Sobre o projeto
 
 **Instituição**: Universidade Federal do Tocantins (UFT)
+
 **Curso**: Ciência da Computação
+
 **Disciplina**: Engenharia de Software
+
 **Período**: 2024/2
+
 **Professor**: Edeilson Milhomem da Silva
+
 **Alunos**: Murilo Valiati, Jorge Antonio Braga, Rafael Pacini e Ranor Victor Araújo
 
 ## Descrição do projeto

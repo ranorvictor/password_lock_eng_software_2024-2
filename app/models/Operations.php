@@ -3,8 +3,8 @@
 class Database
 {
     private $servername = "localhost";
-    private $username = "root";
-    private $password = "";
+    private $username = "password-lock";
+    private $password = "123123";
     private $dbname = "passwordlock";
     protected $connection;
 

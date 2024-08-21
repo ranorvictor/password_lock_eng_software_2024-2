@@ -1,10 +1,15 @@
 <?php
-include '../Config/config.php';
+
+include("../Config/config.php");
+use App\Config\Conexao;
+
+$conn = new Conexao();
+$conn = $conn->conectarBancoDeDados();
 $plataforma = $_POST["plataforma"];
 $login = $_POST["login"];
 $senha = $_POST["senha"];
 $apelido = $_POST["apelido"];
-$sql = "insert into passwordlock (id_usuario, plataforma, login, senha, apelido) values (1, '$plataforma', '$login', '$login', '$senha')";
+$sql = "insert into senhas (plataforma, login, senha, apelido) values ('$plataforma', '$login', '$login', '$senha')";
 $conn->query($sql);
 $conn->close();
-header("location: cadastrarSenha.php");
+header("location: /app/views/cadastrarSenha.php");

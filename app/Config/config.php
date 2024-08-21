@@ -15,7 +15,7 @@ class Conexao
 
         $conexao = new mysqli($dbhost, $dbUsername, $dbPassword, $dbName);
 
-        if ($conexao->connect_errno) {
+        if ($conexao->connect_error) {
             die("Erro na conexão com o banco de dados: " . $conexao->connect_error);
         }
 

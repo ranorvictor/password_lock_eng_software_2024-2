@@ -9,8 +9,8 @@ class Conexao
     function conectarBancoDeDados()
     {
         $dbhost = 'localhost';
-        $dbUsername = 'root';
-        $dbPassword = '';
+        $dbUsername = 'password-lock';
+        $dbPassword = '123123';
         $dbName = 'passwordlock';
 
         $conexao = new mysqli($dbhost, $dbUsername, $dbPassword, $dbName);

@@ -8,8 +8,8 @@ session_start();
     </head>
     <body>
         <div id="MenuPrincipal">
-            <a href="index.php?=app/views/cadastrarSenha.php">Cadastrar Senha</a>
-            <a href="index.php?=app/views/visualizarSenha.php">Visualizar Senhas</a>
+            <a href="/app/views/cadastrarSenha.php">Cadastrar Senha</a>
+            <a href="/app/views/visualizarSenha.php">Visualizar Senhas</a>
         </div>
     </body>
 </html>

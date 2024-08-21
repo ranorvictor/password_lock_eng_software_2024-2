@@ -1,10 +1,10 @@
 <DOCTYPE html>
 <html>
   <head>
+    <title>Password Lock</title>
   </head>
   <body>
     <header>
-      Header
       <a href='/homePage'>Home</a>
       <a href='?controller=xyz&action=index'>Posts</a>
     </header>

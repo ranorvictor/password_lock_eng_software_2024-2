@@ -15,32 +15,42 @@ class Database
 
     private function connect()
     {
-        $this->connection = new mysqli($this->servername, $this->username, $this->password);
+        $this->connection = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
 
         if ($this->connection->connect_error) {
             die("Conexão falhou: " . $this->connection->connect_error);
         }
-
-        $this->connection->select_db($this->dbname);
     }
 
     public function criarUsuario($usuario, $senha)
     {
         if ($this->checarUsuario($usuario)) {
-            return false; 
+            return 1;
+        } else {
+            $sql = "INSERT INTO usuarios (usuario, senha) VALUES (?, ?)";
+            $stmt = $this->connection->prepare($sql);
+    
+            if (!$stmt) {
+                return 2;
+            }
+            $stmt->bind_param("ss", $usuario, $senha);
+    
+            if (!$stmt->execute()) {
+                return 3;
+            }
+    
+            $stmt->close();
+            echo "Usuário criado com sucesso.";
+            return 4;
         }
-
-        $sql = "INSERT INTO usuarios (usuario, senha) VALUES (?, ?)";
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("ss", $usuario, $senha);
-        return $stmt->execute();
     }
+    
 
-    public function adicionarSenha($idUsuario, $senha)
+    public function adicionarSenha($idUsuario, $plataforma, $login, $senha, $apelido)
     {
-        $sql = "INSERT INTO senhas (id_usuario, senha) VALUES (?, ?)";
+        $sql = "INSERT INTO senhas (id_usuario, plataforma, login, senha, apelido) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("is", $idUsuario, $senha);
+        $stmt->bind_param("issss", $idUsuario, $plataforma, $login, $senha, $apelido);
         return $stmt->execute();
     }
 
@@ -60,7 +70,6 @@ class Database
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-    
 
     public function checarUsuario($usuario)
     {

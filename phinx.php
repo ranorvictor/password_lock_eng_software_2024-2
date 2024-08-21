@@ -19,12 +19,12 @@ return
             'charset' => 'utf8',
         ],
         'development' => [
-            'adapter' => $_ENV['DB_CONNECTION'],
-            'host' => $_ENV['DB_HOST'],
-            'name' => $_ENV['DB_DATABASE'],
-            'user' => $_ENV['DB_USERNAME'],
-            'pass' => $_ENV['DB_PASSWORD'],
-            'port' => $_ENV['DB_PORT'],
+            'adapter' => "mysql",
+            'host' => "localhost",
+            'name' => "passwordlock",
+            'user' => "ravi",
+            'pass' => "raviDB123.c",
+            'port' => "3306",
             'charset' => 'utf8',
         ],
         'testing' => [

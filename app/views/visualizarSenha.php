@@ -7,7 +7,7 @@
     </head>
     <body>
         <div id="menusuperior">
-        <a href="index.php">Home</a>
+        <a href="/public/index.php">Home</a>
         </div>
         <div id="VisualizaçãoDeSenha">
            <h1>Colocar visualizações aqui</h1>

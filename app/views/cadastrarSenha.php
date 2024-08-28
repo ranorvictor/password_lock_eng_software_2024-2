@@ -1,6 +1,40 @@
 <?php
-// Nenhum código PHP necessário aqui para estilizar a página
+session_start();
+require_once '../models/Operations.php';
+
+
+if (!isset($_SESSION['usuario'])) {
+    header("Location: /password_lock_eng_software/public/index.php");
+    exit();
+}
+
+
+$db = new Database();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $idUsuario = $_SESSION['id_usuario']; 
+    $plataforma = trim($_POST['plataforma']);
+    $login = trim($_POST['login']);
+    $senha = trim($_POST['senha']);
+    $apelido = trim($_POST['apelido']);
+
+    if (empty($plataforma) || empty($login) || empty($senha) || empty($apelido)) {
+        $_SESSION['message'] = 'Por favor, preencha todos os campos.';
+    } else {
+
+        if ($db->adicionarSenha($idUsuario, $plataforma, $login, $senha, $apelido)) {
+            $_SESSION['message'] = 'Senha cadastrada com sucesso!';
+        } else {
+            $_SESSION['message'] = 'Erro ao cadastrar a senha.';
+        }
+    }
+    
+
+    header("Location: cadastrarSenha.php");
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -55,8 +89,8 @@
         .container input[type="reset"]:hover {
             background-color: #218838;
         }
-        .container p {
-            margin: 10px 0;
+        .container .link-container {
+            text-align: center;
         }
         .container p.success {
             color: green;
@@ -64,33 +98,38 @@
         .container p.error {
             color: red;
         }
-        .container .link-container {
-            text-align: center;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Cadastrar Senha</h1>
         
-        <!-- Link para voltar para a página principal -->
+
         <div class="link-container">
-            <a href="/public/index.php">Home</a>
+            <a href="/password_lock_eng_software/public/index.php">Home</a>
         </div>
-        
-        <!-- Formulário para cadastrar senha -->
-         <form action="create.php" method="post">
-                <label for="plataforma">Plataforma:</label>
-                <input type="text" id="plataforma" name="plataforma" placeholder="Digite a plataforma na qual a senha vai ser salva">
-                <label for="login">Login</label>
-                <input type="text" id="login" name="login" placeholder="Digite seu usuário">
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha" placeholder="Digite a senha a ser salva">
-                <label for="apelido">Apelido da conta:</label>
-                <input type="text" id="apelido" name="apelido" placeholder="Digite um apelido da conta">
-                <input type="reset" value="Limpar">
-                <input type="submit" value="Enviar">
-         </form>
+
+
+        <?php if (isset($_SESSION['message'])): ?>
+            <p class="<?php echo strpos($_SESSION['message'], 'sucesso') !== false ? 'success' : 'error'; ?>">
+                <?php echo htmlspecialchars($_SESSION['message']); ?>
+            </p>
+            <?php unset($_SESSION['message']); ?>
+        <?php endif; ?>
+
+     
+        <form action="" method="post">
+            <label for="plataforma">Plataforma:</label>
+            <input type="text" id="plataforma" name="plataforma" placeholder="Digite a plataforma na qual a senha vai ser salva" required>
+            <label for="login">Login:</label>
+            <input type="text" id="login" name="login" placeholder="Digite seu usuário" required>
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" placeholder="Digite a senha a ser salva" required>
+            <label for="apelido">Apelido da conta:</label>
+            <input type="text" id="apelido" name="apelido" placeholder="Digite um apelido da conta" required>
+            <input type="reset" value="Limpar">
+            <input type="submit" value="Enviar">
+        </form>
     </div>
 </body>
 </html>

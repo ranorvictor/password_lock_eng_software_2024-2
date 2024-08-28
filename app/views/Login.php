@@ -6,27 +6,23 @@ require_once '../models/Operations.php';
 $db = new Database();
 $message = isset($_SESSION['message']) ? $_SESSION['message'] : '';
 $error = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = trim($_POST['usuario']);
     $senha = trim($_POST['senha']);
+    
     if (empty($usuario) || empty($senha)) {
         $error = 'Por favor, preencha todos os campos.';
     } else {
         if ($db->checarUsuario($usuario)) {
             $idUsuario = $db->retornarId($usuario);
             if ($idUsuario !== null) {
-                $senhas = $db->pesquisarSenhas($idUsuario);
-                $senhaCorreta = false;
-                foreach ($senhas as $storedSenha) {
-                    if (trim($storedSenha['senha']) === $senha) {
-                        $senhaCorreta = true;
-                        break;
-                    }
-                }
-
-                if ($senhaCorreta) {
-                    $message = 'Login bem-sucedido!';
-                    header("Location: cadastrarSenha.php");
+                
+                if ($db->verificarSenha($usuario, $senha)) {
+                    $_SESSION['usuario'] = $usuario; 
+                    $_SESSION['id_usuario'] = $idUsuario; 
+                    header("Location: ../../public/index.php");
+                    exit();
                 } else {
                     $error = 'Senha incorreta.';
                 }
@@ -36,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $error = 'Usuário não encontrado.';
         }
+        
     }
     
     unset($_SESSION['message']);

@@ -3,8 +3,8 @@
 class Database
 {
     private $servername = "localhost";
-    private $username = "password-lock";
-    private $password = "123123";
+    private $username = "root";
+    private $password = "";
     private $dbname = "passwordlock";
     protected $connection;
 
@@ -29,22 +29,22 @@ class Database
         } else {
             $sql = "INSERT INTO usuarios (usuario, senha) VALUES (?, ?)";
             $stmt = $this->connection->prepare($sql);
-    
+
             if (!$stmt) {
-                return 2;
+                return 2; 
             }
-            $stmt->bind_param("ss", $usuario, $senha);
-    
+
+            $stmt->bind_param("ss", $usuario, $senha); 
+
             if (!$stmt->execute()) {
-                return 3;
+                return 3; 
             }
-    
+
             $stmt->close();
             echo "Usuário criado com sucesso.";
             return 4;
         }
     }
-    
 
     public function adicionarSenha($idUsuario, $plataforma, $login, $senha, $apelido)
     {
@@ -64,7 +64,7 @@ class Database
 
     public function pesquisarSenhas($idUsuario)
     {
-        $sql = "SELECT senha FROM usuarios WHERE id = ?";
+        $sql = "SELECT plataforma, login, senha, apelido FROM senhas WHERE id_usuario = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("i", $idUsuario);
         $stmt->execute();
@@ -88,7 +88,22 @@ class Database
         $stmt->bind_param("s", $usuario);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_assoc();
-        return isset($result['id']) ? $result['id'] : null;
+        return isset($result['id']) ? $result['id'] : null; 
+    }
+
+
+    public function verificarSenha($usuario, $senha)
+    {
+        $sql = "SELECT senha FROM usuarios WHERE usuario = ?";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bind_param("s", $usuario);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        
+        if ($result) {
+            return $result['senha'] === $senha; 
+        }
+        return false; 
     }
 }
 
